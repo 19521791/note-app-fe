@@ -1,13 +1,35 @@
-import { Card, CardContent, Grid, List, Box, Typography, Tooltip, } from '@mui/material';
-import React, { useState } from 'react';
-import { Link, Outlet, useParams, useLoaderData } from 'react-router-dom';
+import { Card, CardContent, Grid, List, Box, Typography, Tooltip, IconButton } from '@mui/material';
+import { NoteAddOutlined } from '@mui/icons-material';
+import React, { useEffect, useState } from 'react';
+import { Link, Outlet, useParams, useLoaderData, useSubmit, useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 export default function NoteList() {
-    const { noteId } = useParams();
+    const { noteId, folderId } = useParams();
     const [activeNoteId, setActiveNoteId] = useState(noteId);
     const { folder } = useLoaderData();
+    const submit = useSubmit();
+    const navigate = useNavigate();
+
     console.log('From NoteList', {folder});
-    // const folder = { notes: [{ id: '1', content: '<p>This is a new note</p>'}]};
+
+    useEffect(() => {
+      if(noteId) {
+        setActiveNoteId(noteId);
+        return;
+      }
+
+      if(folder?.notes?.[0]){
+        navigate(`note/${folder.notes[0].id}`)
+      }
+    }, [noteId, folder.notes]);
+
+    const handleAddNewNote = () => {
+      submit({
+        content: '',
+        folderId
+      }, { method: 'post', action: `/folders/${folderId}`});
+    };
     return (
         <Grid container height="100%">
             <Grid 
@@ -33,11 +55,16 @@ export default function NoteList() {
                           }}
                         >
                           <Typography sx={{ fontSize: 16, fontWeight: 'bold' }}>Notes</Typography>
+                          <Tooltip title="Add Note" onClick={handleAddNewNote}>
+                            <IconButton size="small" >
+                              <NoteAddOutlined />
+                            </IconButton>
+                          </Tooltip>
                         </Box>
                     } 
                 >
                   {
-                      folder.notes.map(({ id, content }) => {
+                      folder.notes.map(({ id, content, updatedAt }) => {
                           return <Link
                             key={id}
                             to={`note/${id}`}
@@ -56,6 +83,9 @@ export default function NoteList() {
                                   dangerouslySetInnerHTML={{
                                     __html: `${content.substring(0, 30) || 'Empty'}`,
                                   }}/>
+                                  <Typography sx={{ fontSize: '13px', mt: '5px', color: 'gray' }}>
+                                    {moment(updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
+                                  </Typography>
                                 </CardContent>
                             </Card>
                         </Link>
