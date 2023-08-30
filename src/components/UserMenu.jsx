@@ -10,8 +10,6 @@ export default function UserMenu() {
     
     const open = Boolean(anchorEl);
 
-    console.log('From UserMenu',{user});
-
     const handleLogout = () => {
         user.auth.signOut();
     }

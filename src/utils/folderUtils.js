@@ -10,7 +10,6 @@ export const foldersLoader = async () => {
       }`;
 
       const data = await graphQLRequest({query});
-      console.log('From FolderUtils', {data});
       return data;
 };
 

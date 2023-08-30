@@ -12,51 +12,56 @@ import { debounce } from '@mui/material';
 import { getToPathname } from '@remix-run/router';
 
 export default function Note() {
-    const { note } = useLoaderData();
-    const submit = useSubmit();
-    const location = useLocation();
-    const [editorState, setEditorState] = useState(() => {
-        return EditorState.createEmpty()
-    });
+  const { note } = useLoaderData();
+  const submit = useSubmit();
+  const location = useLocation();
+  const [editorState, setEditorState] = useState(() => {
+      return EditorState.createEmpty()
+  });
 
-    const [rawHTML, setRawHTML] = useState(note.content);
+  const [rawHTML, setRawHTML] = useState(note.content);
+  const [hasPendingChange, setHasPendingChange] = useState(false); 
 
-    useEffect(() => {
+  useEffect(() => {
+    if (hasPendingChange) {
       debounceMemorized(rawHTML, note, location.pathname);
-    }, [rawHTML, location.pathname]);
-    
-    const debounceMemorized = useMemo(() => {
-      return debounce((rawHTML, note, pathname) => {
-        if(rawHTML === note.content) return;
+      setHasPendingChange(false);
+    }
+  }, [rawHTML, hasPendingChange, note, location.pathname]);
+  
+  const debounceMemorized = useMemo(() => {
+    return debounce((rawHTML, note, pathname) => {
+      if(rawHTML === note.content) return;
 
-        submit({...note, content: rawHTML}, {
-          method: 'post',
-          action: pathname
-        })
-      }, 1000);
-    }, []);
+      submit({...note, content: rawHTML}, {
+        method: 'post',
+        action: pathname
+      })
+    }, 1000);
+  }, []);
 
-    useEffect(() => {
-        const blocksFromHTML = convertFromHTML(note.content);
-        const state = ContentState.createFromBlockArray(
-          blocksFromHTML.contentBlocks,
-          blocksFromHTML.entityMap
-        );
-        setEditorState(EditorState.createWithContent(state));
-      }, [note.id]);
+  useEffect(() => {
+      const blocksFromHTML = convertFromHTML(note.content);
+      const state = ContentState.createFromBlockArray(
+        blocksFromHTML.contentBlocks,
+        blocksFromHTML.entityMap
+      );
+      setEditorState(EditorState.createWithContent(state));
+    }, [note.id]);
 
-    const handleOnChange = (e) => {
-        setEditorState(e);
-        setRawHTML(draftToHtml(convertToRaw(e.getCurrentContent())));
-    };
-    
-    return (
-        <Editor
-            editorState={editorState}
-            onEditorStateChange={handleOnChange}
-            placeholder='Write something!'
-        >
+  const handleOnChange = (e) => {
+      setEditorState(e);
+      setRawHTML(draftToHtml(convertToRaw(e.getCurrentContent())));
+      setHasPendingChange(true); 
+  };
+  
+  return (
+      <Editor
+          editorState={editorState}
+          onEditorStateChange={handleOnChange}
+          placeholder='Write something!'
+      >
 
-        </Editor>
-    )
+      </Editor>
+  )
 }
