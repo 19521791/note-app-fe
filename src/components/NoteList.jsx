@@ -11,7 +11,6 @@ export default function NoteList() {
     const submit = useSubmit();
     const navigate = useNavigate();
 
-    console.log('From NoteList', {folder});
 
     useEffect(() => {
       if(noteId) {

@@ -1,7 +1,6 @@
 import { graphQLRequest } from "./request";
 
 export const notesLoader = async ({ params: { folderId } }) => {
-    console.log('Params', { folderId });
     const query = `query Folder($folderId: String!) {
         folder(folderId: $folderId) {
           id
@@ -20,12 +19,10 @@ export const notesLoader = async ({ params: { folderId } }) => {
             folderId
         }
     })
-    console.log('From Router', {data});
     return data;
 }
 
 export const noteLoader = async ({ params: { noteId } }) => {
-    console.log('Params', { noteId });
     const query = `query Note($noteId: String!) {
         note(noteId: $noteId) {
          id
@@ -39,7 +36,6 @@ export const noteLoader = async ({ params: { noteId } }) => {
             noteId
         }
     })
-    console.log('From Router', {data});
     return data;
 }
 
@@ -59,7 +55,6 @@ export const addNewNote = async ({ params, request }) => {
         query,
         variables: formDataObj
     })
-    console.log('Add Note', {addNote});
     return addNote;
 };
 
@@ -79,6 +74,5 @@ export const updateNote = async ({ params, request }) => {
         query,
         variables: formDataObj
     })
-    console.log('Add Note', {updateNote});
     return updateNote;
 };
