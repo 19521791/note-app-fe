@@ -29,4 +29,23 @@ export const addNewFolder = async (newFolder) => {
   });
 
   return data;
+};
+
+export const updateFolder = async (folderId, newName) => {
+  const query = `mutation Mutation($folderId: ID!, $name: String!) {
+    updateFolder(folderId: $folderId, name: $name) {
+      id
+      name
+    }
+  }`;
+
+  const data = await graphQLRequest({
+    query,
+    variables: {
+      folderId,
+      name: newName.name
+    },
+  });
+
+  return data
 }
