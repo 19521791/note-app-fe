@@ -5,10 +5,20 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Link, useParams } from 'react-router-dom';
 import { Box } from '@mui/system';
 import NewFolder from './NewFolder';
+import UpdateFolder from './UpdateFolder';
 
 export default function FolderList({ folders }) {
     const {folderId} = useParams();
     const [activeFolderId, setActiveFolderId] = useState(folderId);
+    const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
+
+    const openUpdateDialog = () => {
+        setUpdateDialogOpen(true);
+    };
+
+    const closeUpdateDialog = () => {
+        setUpdateDialogOpen(false);
+    };
     
     return (
         <List sx={{
@@ -32,38 +42,36 @@ export default function FolderList({ folders }) {
             {
             folders.map(({ id, name}) => {
                 return (
-                    <Link
+                    <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+                        <Link
                         key={id}
                         to={`folders/${id}`}
                         style={{
                             textDecoration: 'none',
                           }}
-                        onClick={() => setActiveFolderId(id)}
+                        onClick={() => { 
+                            setActiveFolderId(id); 
+                        }} 
                     >
                         <Card sx={{
                             mb: '5px',
                             backgroundColor:
                             id === activeFolderId ? 'rgb(255 211 140)' : null,
-                            display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+                            width: '230px'
                         }}>
                             <CardContent sx={{ '&:last-child': { pb: '10px'}, padding: '10px'}}>
-                                <Typography>
-                                    {name}
-                                </Typography>
-                            </CardContent>
-                            <CardActions sx={{ display: 'flex', alignItems: 'center' }}>
-                                <IconButton sx={{ fontSize: '16px', color: 'rgba(0, 0, 0, 0.4)' }}>
-                                    <DeleteIcon />
-                                </IconButton>
-                                <IconButton sx={{ fontSize: '16px', color: 'rgba(0, 0, 0, 0.4)' }}>
-                                    <EditIcon />
-                                </IconButton>
-                            </CardActions>
+                                    <Typography>
+                                        {name}
+                                    </Typography>
+                                </CardContent>
                         </Card>
                     </Link>
+                    <UpdateFolder/>
+                    </Box>
                 )
             })
             }
+            
         </List>
     )
 }

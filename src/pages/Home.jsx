@@ -10,7 +10,7 @@ export default function Home() {
     
     return (
         <>
-            <Typography variant="h4" sx={{ mb: '20px' }}>Note App</Typography>
+            <Typography variant="h4" sx={{ mb: '20px' }}>NOTE TICKER</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'right', mb: '10px' }}>
                 <UserMenu />
             </Box>
@@ -19,7 +19,7 @@ export default function Home() {
                 container 
                 sx={{ height: '50vh', boxShadow: '0 0 15px 0 rgb(193 193 193 / 60%)'}}
             >
-                <Grid item xs={3} sx={{ height: '100%'}}>
+                <Grid item xs={3} sx={{ height: '100%',}}>
                     <FolderList 
                         folders={folders}
                     />
