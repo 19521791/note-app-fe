@@ -48,4 +48,22 @@ export const updateFolder = async (folderId, newName) => {
   });
 
   return data
-}
+};
+
+export const deleteFolder = async (folderId, noteId) => {
+  const query = `mutation Mutation($folderId: String!, $noteId: String!) {
+    deleteFolder(folderId: $folderId, noteId: $noteId) {
+      id
+    }
+  }`;
+
+  const data = await graphQLRequest({
+    query,
+    variables: {
+      folderId,
+      noteId
+    },
+  });
+
+  return data;
+};

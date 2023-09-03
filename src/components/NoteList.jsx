@@ -3,6 +3,7 @@ import { NoteAddOutlined } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import { Link, Outlet, useParams, useLoaderData, useSubmit, useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import image from '../assets/Untitled.jpeg'
 
 export default function NoteList() {
     const { noteId, folderId } = useParams();
@@ -30,7 +31,17 @@ export default function NoteList() {
       }, { method: 'post', action: `/folders/${folderId}`});
     };
     return (
-        <Grid container height="100%">
+        <Grid 
+          container 
+          height="100%" 
+          sx={{ 
+            backgroundImage: `url(${image})`, 
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center center',
+            minHeight: '50vh',
+            borderRadius: '5px'
+            }}>
             <Grid 
                 item 
                 xs={4}

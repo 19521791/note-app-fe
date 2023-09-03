@@ -24,12 +24,19 @@ export default function UserMenu() {
 
     return(
         <>
-            <Box sx={{ display: 'flex'}} onClick={handleClick}>
+            <Box 
+                sx={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center',
+                    cursor: 'pointer'
+                }} 
+                onClick={handleClick}>
                 <Typography>
                     {user.displayName}
                 </Typography>
                 <Avatar alt="avatar" src={user.photoURL} 
-                sx={{ width: 24, height: 24, marginLeft: '5px'}}/>
+                sx={{ width: 24, height: 24, marginLeft: '7px', marginTop: '-3px'}}/>
             </Box>
             <Menu
                 id="basic-menu"

@@ -9,7 +9,6 @@ import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
 import { useLoaderData, useSubmit, useLocation } from 'react-router-dom';
 import { debounce } from '@mui/material';
-import { getToPathname } from '@remix-run/router';
 
 export default function Note() {
   const { note } = useLoaderData();
