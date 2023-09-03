@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { List, Card, CardContent, Typography, IconButton, CardActions } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import { Link, useParams } from 'react-router-dom';
 import { Box } from '@mui/system';
 import NewFolder from './NewFolder';
 import UpdateFolder from './UpdateFolder';
+import DeleteFolder from './DeleteFolder';
 
 export default function FolderList({ folders }) {
     const {folderId} = useParams();
@@ -66,7 +65,10 @@ export default function FolderList({ folders }) {
                                 </CardContent>
                         </Card>
                     </Link>
-                    <UpdateFolder/>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px'}}>
+                        <UpdateFolder/>
+                        <DeleteFolder />
+                    </Box>
                     </Box>
                 )
             })

@@ -2,7 +2,7 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextFiel
 import React, { useEffect, useState } from 'react';
 import { Edit } from '@mui/icons-material';
 import { Button } from '@mui/base';
-import { updateFolder } from '../utils/folderUtils'; // Assuming you have an updateFolder function
+import { updateFolder } from '../utils/folderUtils'; 
 import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
 
 export default function UpdateFolder() {
@@ -24,8 +24,8 @@ export default function UpdateFolder() {
 
     const handleClose = () => {
         setSearchParams((params) => {
-          params.delete('popup'); 
-          return params;
+            params.delete('popup'); 
+            return params;
         });
         setUpdatedFolderName('');
         navigate(-1);
@@ -48,8 +48,15 @@ export default function UpdateFolder() {
     return (
         <div>
             <Tooltip title="Update Folder" onClick={handleOpenPopup}>
-                <IconButton size='small'>
-                    <Edit sx={{ color: 'white' }}/>
+                <IconButton 
+                    sx={{
+                        fontSize: '10px',
+                        width: '10px',
+                        color: 'white',
+                        marginLeft: '3px'
+                    }}
+                    >
+                    <Edit />
                 </IconButton>
             </Tooltip>
             <Dialog open={isOpen} onClose={handleClose}>

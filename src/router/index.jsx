@@ -7,7 +7,7 @@ import ErrorPage from "../pages/ErrorPage";
 import NoteList from "../components/NoteList";
 import Note from "../components/Note";
 import { addNewNote, noteLoader, notesLoader, updateNote } from "../utils/noteUtils";
-import { foldersLoader, updateFolder } from "../utils/folderUtils";
+import { foldersLoader, updateFolder, deleteFolder } from "../utils/folderUtils";
 
 const AuthLayout = () => {
     return (
@@ -33,6 +33,7 @@ export default createBrowserRouter([
                         element: <Home />,
                         path: '/',
                         action: updateFolder,
+                        // action: deleteFolder,
                         loader: foldersLoader,
                         children: [
                             {
