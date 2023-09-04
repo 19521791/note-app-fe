@@ -12,21 +12,22 @@ jobs:
         - run: echo "Say hello to YAML!"
   build-and-push:
     environment:
-      DOCKER_IMAGE: long1100/nodeapp
+      DOCKER_IMAGE: long1100/node-app
       DOCKER_TAG: v1
     executor: docker/docker
     steps:
       - setup_remote_docker
       - checkout
-      - docker/check
-          docker-username: DOCKER_USER
-          docker-password: DOCKER_PASSWORD
+      - docker/check:
+          docker-username: $DOCKER_USER
+          docker-password: $DOCKER_PASSWORD
       - docker/build:
           image: $DOCKER_IMAGE
           tag: $DOCKER_TAG
       - docker/push:
           digest-path: /tmp/digest.txt
-          image: my_repo/orb-test
+          image: $DOCKER_IMAGE
+          tag: $DOCKER_TAG
       - run:
           command: |
             echo "Digest is: $(</tmp/digest.txt)"
@@ -35,10 +36,10 @@ workflows:
   build-deploy:
     jobs:
       - node/test
-      - build-and-push
-          filters:
-            requires:
+      - build-and-push:
+          requires:
               - note/test
+          filters:
             branches:
               only:
                 - main
