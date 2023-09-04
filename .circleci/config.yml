@@ -12,7 +12,10 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build -t $IMAGE_NAME:$IMAGE_TAG .
+            docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
+      - run:
+          name: List Docker Images
+          command: |
             docker images
   publish-latest:
     environment:
