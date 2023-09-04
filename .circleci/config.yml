@@ -1,41 +1,39 @@
-version: 2.1
-
-orbs:
-  node: circleci/node@3.0.0
-  docker: circleci/docker@1.4.0
-
+version: 2
 jobs:
-  build-and-push:
+  build:
     environment:
-      DOCKER_IMAGE: long1100/node-app
-      DOCKER_TAG: v1
-    executor: docker/docker
+      IMAGE_NAME: long1100/note-app
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker image
+          command: docker build -t $IMAGE_NAME:v1 .
+  publish-latest:
+    environment:
+      IMAGE_NAME: long1100/note-app
+    docker:
+      - image: circleci/buildpack-deps:stretch
     steps:
       - setup_remote_docker
-      - checkout
-      - docker/check:
-          docker-password: DOCKER_PASSWORD
-          docker-username: DOCKER_USER
-      - docker/build:
-          image: $DOCKER_IMAGE
-          tag: $DOCKER_TAG
-      - docker/push:
-          digest-path: /tmp/digest.txt
-          image: $DOCKER_IMAGE
-          tag: $DOCKER_TAG
       - run:
+          name: Publish Docker Image to Docker Hub
           command: |
-            echo "Digest is: $(</tmp/digest.txt)"
-
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+            docker push $IMAGE_NAME:v1
 workflows:
-  build-deploy:
+  version: 2
+  build-master:
     jobs:
-      - build-and-push:
+      - build:
           filters:
             branches:
-              only:
-                - main
-
-
-
-     
+              only: main
+      - publish-latest:
+          requires:
+            - build
+          filters:
+            branches:
+              only: main
