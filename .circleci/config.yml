@@ -2,15 +2,14 @@ version: 2.1
 orbs:
   node: circleci/node@5.1.0
 
+jobs: 
+  test:
+    steps:
+      - checkout
+      - run: echo "This is the test job"
+      - run: npm run lint
+
 workflows:
   node-tests:
     jobs:
-      - node/test:
-          override:
-            - run:
-                name: Lint
-                command: npm run lint
-                 
-      # - run:
-      #     name: Lint
-      #     command: npm run lint
+      - test
