@@ -1,6 +1,6 @@
 import { Card, CardContent, Grid, List, Box, Typography, Tooltip, IconButton } from '@mui/material';
 import { NoteAddOutlined } from '@mui/icons-material';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, Outlet, useParams, useLoaderData, useSubmit, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import image from '../assets/Untitled.jpeg'

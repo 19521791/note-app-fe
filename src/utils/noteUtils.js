@@ -39,7 +39,7 @@ export const noteLoader = async ({ params: { noteId } }) => {
     return data;
 }
 
-export const addNewNote = async ({ params, request }) => {
+export const addNewNote = async ({ request }) => {
     const newNote = await request.formData();
     const formDataObj = {};
     newNote.forEach((value, key) => { formDataObj[key] = value; });
@@ -58,7 +58,7 @@ export const addNewNote = async ({ params, request }) => {
     return addNote;
 };
 
-export const updateNote = async ({ params, request }) => {
+export const updateNote = async ({ request }) => {
     const updatedNote = await request.formData();
     const formDataObj = {};
     updatedNote.forEach((value, key) => { formDataObj[key] = value; });

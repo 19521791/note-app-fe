@@ -1,16 +1,18 @@
-FROM node:14-stretch-slim as build
+FROM node:18-alpine as build-stage
 
 WORKDIR /app
 
 COPY . /app
 
-RUN npm install -g npm@latest
+RUN npm install -g npm@10.0.0
 
-RUN npm cache clean --force
+RUN npm install
 
-RUN npm install && npm run build
+RUN npm run build
 
-FROM nginx:latest
+FROM nginx:1.17-alpine as production-stage
 
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+
+CMD ["nginx", "-g", "daemon off;"]
 
