@@ -5,6 +5,12 @@ orbs:
 workflows:
   node-tests:
     jobs:
-      - run:
-          name: Lint
-          command: npm run lint
+      - node/test:
+          override:
+            - run:
+                name: Lint
+                command: npm run lint
+                 
+      # - run:
+      #     name: Lint
+      #     command: npm run lint
