@@ -7,3 +7,8 @@ jobs:
     steps:
         - run: echo "Say hello to YAML!"
         - run: npm run lint
+
+workflows:
+  hello:
+    jobs:
+      - build
