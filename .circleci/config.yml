@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   build:
     environment:
@@ -17,6 +17,7 @@ jobs:
   publish-latest:
     environment:
       IMAGE_NAME: long1100/note-app
+      IMAGE_TAG: v1
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
@@ -26,9 +27,9 @@ jobs:
           command: |
             echo "Start pushing"
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
-            docker push $IMAGE_NAME:$IMAGE_TAG
+            docker push ${IMAGE_NAME}:${IMAGE_TAG}
 workflows:
-  version: 2
+  version: 2.1
   build-master:
     jobs:
       - build:
