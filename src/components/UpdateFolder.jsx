@@ -1,5 +1,5 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Tooltip } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Edit } from '@mui/icons-material';
 import { Button } from '@mui/base';
 import { updateFolder } from '../utils/folderUtils'; 

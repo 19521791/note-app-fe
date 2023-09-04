@@ -1,5 +1,4 @@
 import { IconButton, Tooltip } from '@mui/material';
-import React, { useEffect, useState } from 'react';
 import { Delete } from '@mui/icons-material';
 import { deleteFolder } from '../utils/folderUtils';
 import { useParams } from 'react-router-dom';
@@ -28,4 +27,4 @@ export default function UpdateFolder() {
             </Tooltip>
         </div>
     )
-};
+}

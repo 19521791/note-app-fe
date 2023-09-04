@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { List, Card, CardContent, Typography, IconButton, CardActions } from '@mui/material';
+import { useState } from 'react';
+import { List, Card, CardContent, Typography } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
 import { Box } from '@mui/system';
 import NewFolder from './NewFolder';
@@ -10,15 +10,7 @@ export default function FolderList({ folders }) {
     const {folderId} = useParams();
     const [activeFolderId, setActiveFolderId] = useState(folderId);
     const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
-
-    const openUpdateDialog = () => {
-        setUpdateDialogOpen(true);
-    };
-
-    const closeUpdateDialog = () => {
-        setUpdateDialogOpen(false);
-    };
-    
+ 
     return (
         <List sx={{
             width: '100%',

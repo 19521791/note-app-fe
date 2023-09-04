@@ -1,8 +1,13 @@
 version: 2.1
-orbs:
-  node: circleci/node@5.1.0
+
+jobs:
+  build:
+    docker:
+     - image: cimg/base:2022.05
+    steps:
+        - run: echo "Say hello to YAML!"
 
 workflows:
-  node-tests:
+  hello:
     jobs:
-      - node/lint
+      - build
