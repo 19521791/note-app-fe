@@ -1,13 +1,48 @@
 version: 2.1
 
+orbs:
+  node: circleci/node@3.0.0
+  docker: circleci/docker@1.4.0
+
 jobs:
-  build:
+  node/test:
     docker:
      - image: cimg/base:2022.05
     steps:
         - run: echo "Say hello to YAML!"
+  build-and-push:
+    environment:
+      DOCKER_IMAGE: long1100/nodeapp
+      DOCKER_TAG: v1
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/check
+          docker-username: DOCKER_USER
+          docker-password: DOCKER_PASSWORD
+      - docker/build:
+          image: $DOCKER_IMAGE
+          tag: $DOCKER_TAG
+      - docker/push:
+          digest-path: /tmp/digest.txt
+          image: my_repo/orb-test
+      - run:
+          command: |
+            echo "Digest is: $(</tmp/digest.txt)"
 
 workflows:
-  hello:
+  build-deploy:
     jobs:
-      - build
+      - node/test
+      - build-and-push
+          filters:
+            requires:
+              - note/test
+            branches:
+              only:
+                - main
+
+
+
+     
